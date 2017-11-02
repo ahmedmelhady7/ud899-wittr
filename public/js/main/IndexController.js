@@ -1,6 +1,7 @@
 import PostsView from './views/Posts';
 import ToastsView from './views/Toasts';
 import idb from 'idb';
+import sw from '../sw/index';
 
 export default function IndexController(container) {
   this._container = container;
@@ -13,6 +14,14 @@ export default function IndexController(container) {
 
 IndexController.prototype._registerServiceWorker = function() {
   // TODO: register service worker
+  if (!navigator.serviceWorker) return;
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').then(() => {
+      console.log('yay!');
+    }).catch((e) => {
+      console.log('boo!', e);
+    });
+  }
 };
 
 // open a connection to the server for live updates
